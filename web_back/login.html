@@ -68,18 +68,15 @@
                 return;
             }
             // 3.发送请求
-            dl({
-                a: a,
-                b: b
-            }, function (res) {
-                // 判断用户输入的账号和密码是否正确
-                if (res.code === 200) {
-                    // 正确时跳转页面
+            use.dl({
+                data: {
+                    a: a,
+                    b: b
+                }, success: function () {
                     location.href = './index.html'
-                } else {
+                }, fail: function () {
                     $('.modal').modal('show').find('.modal-body').html('账号或密码错误!');
                 }
-
             })
         })
     </script>

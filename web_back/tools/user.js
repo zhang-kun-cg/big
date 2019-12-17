@@ -38,6 +38,32 @@ var use = {
                 }
             }
         })
-    }
+    },
+    //修改信息获取发送
+    xiugai1: function (obj) {
+        $.ajax({
+            url: GET,
+            success: function (res) {
+                if (res.code === 200) {
+                    obj.success(res);
+                }
 
+            }
+        })
+    },
+    //修改信息修改发送
+    xiugai2: function (obj) {
+        $.ajax({
+            type: 'post',
+            url: GET2,
+            data: obj.data,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.code === 200) {
+                    obj.success();
+                }
+            }
+        })
+    }
 }

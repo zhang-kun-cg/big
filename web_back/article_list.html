@@ -24,17 +24,17 @@
                     <form class="form-inline">
                         <select id="selCategory" name="" class="form-control input-sm">
                             <option>所有分类</option>
-                            <option>未分类</option>
-                            <option>奇趣事</option>
-                            <option>会生活</option>
-                            <option>爱旅行</option>
+                            <option>八卦</option>
+                            <option>奇异</option>
+                            <option>新闻</option>
+                            <!-- <option>爱旅行</option> -->
                         </select>
                         <select id="selStatus" name="" class="form-control input-sm">
                             <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                            <option>草稿</option>
+                            <option>已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                        <button id="btnSearch" class="btn btn-default btn-sm" type="button">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
@@ -276,7 +276,7 @@
     </script>
     <script src="./js/template-web.js"></script>
     <script type="text/template" id="template">
-        {{each data val}}
+        {{each $data val}}
         <tr>
             <td>{{val.title}}</td>
             <td>{{val.author}}</td>
@@ -295,9 +295,36 @@
             url: 'http://localhost:8000/admin/search',
             success: function (res) {
                 console.log(res);
-                var str = template('template', res);
+                var str = template('template', res.data);
+                // console.log(str);
                 $('#tb').html(str);
             }
+        })
+        $('#btnSearch').on('click', function () {
+            // console.log($('#selCategory').val());
+            // console.log($('#selStatus').val());
+            $.ajax({
+                url: 'http://localhost:8000/admin/search',
+                success: function (res) {
+                    var arr = [];
+                    $.each(res.data, function (i, ele) {
+                        if (ele.type === $('#selCategory').val() && ele.state === $('#selStatus').val()) {
+                            arr.push(ele);
+                        } else if ($('#selCategory').val() == '所有分类' && $('#selStatus').val() == '所有状态') {
+                            arr.push(ele);
+                        } else if (ele.type === $('#selCategory').val() && $('#selStatus').val() == '所有状态') {
+                            arr.push(ele);
+                        } else if (ele.state === $('#selStatus').val() && $('#selCategory').val() == '所有分类') {
+                            arr.push(ele);
+                        }
+                    })
+                    var str = template('template', arr);
+                    console.log(str);
+                    $('#tb').html(str);
+                }
+            })
+
+
         })
     </script>
 </body>

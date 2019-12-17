@@ -113,6 +113,7 @@
     <script src="./tools/config.js"></script>
     <script src="./tools/user.js"></script>
     <script>
+        // 退出
         var $tc = $('.tc');
         // 注册点击事件
         $tc.on('click', function () {
@@ -127,6 +128,14 @@
                 }
             })
         })
+        // 获取用户信息
+        use.xinxi({
+            success: function (res) {
+                $('.user_info img,.user_center_link img').prop('src', res.data.user_pic);
+                $('.user_info span').html('欢迎&nbsp&nbsp' + res.data.nickname);
+            }
+        })
+
     </script>
 </body>
 

@@ -28,5 +28,16 @@ var use = {
                 }
             }
         })
+    },
+    xinxi: function (obj) {
+        $.ajax({
+            url: GETUSER,
+            success: function (res) {
+                if (res.code === 200) {
+                    obj.success(res);
+                }
+            }
+        })
     }
+
 }
